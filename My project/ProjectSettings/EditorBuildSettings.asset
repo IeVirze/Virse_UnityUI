@@ -11,6 +11,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CharacterCreation.unity
     guid: f628b31f153e2844ba5bce5a79a800ad
+  - enabled: 0
+    path: Assets/ReviewScreen.unity
+    guid: c64675518c1a408418a6e32616047c91
+  - enabled: 1
+    path: Assets/Scenes/ReviewScreen.unity
+    guid: 67ef02925b7c7be40b8e789a6ddcf736
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
