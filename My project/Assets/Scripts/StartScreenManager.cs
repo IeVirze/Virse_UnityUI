@@ -15,7 +15,7 @@ public class StartScreenManager : MonoBehaviour
 
     [Header("Music")]
     public Toggle musicToggle;
-    public AudioSource backgroundMusic;
+    public DynamicPlayer dynamicPlayer;
 
     [Header("Scene")]
     public string characterCreationSceneName = "CharacterCreation";
@@ -28,8 +28,7 @@ public class StartScreenManager : MonoBehaviour
         musicToggle.onValueChanged.AddListener(OnMusicToggled);
 
         // initial music state
-        if (backgroundMusic != null)
-            backgroundMusic.enabled = musicToggle.isOn;
+        musicToggle.isOn = true;
     }
 
     void OnStartClicked()
@@ -71,7 +70,11 @@ public class StartScreenManager : MonoBehaviour
 
     void OnMusicToggled(bool isOn)
     {
-        if (backgroundMusic != null)
-            backgroundMusic.enabled = isOn;
+        if (dynamicPlayer == null) return;
+
+        if (isOn)
+            dynamicPlayer.PlayMusic();
+        else
+            dynamicPlayer.StopMusic();
     }
 }
