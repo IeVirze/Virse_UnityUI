@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 92619253}
   - component: {fileID: 92619252}
   - component: {fileID: 92619251}
+  - component: {fileID: 92619254}
   m_Layer: 5
   m_Name: Finish
   m_TagString: Untagged
@@ -240,6 +241,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 92619249}
   m_CullTransparentMesh: 1
+--- !u!114 &92619254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 92619249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec6e07ccf5a0afb43948c9c4dacd8748, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
 --- !u!1 &104343272
 GameObject:
   m_ObjectHideFlags: 0
@@ -389,6 +402,7 @@ GameObject:
   - component: {fileID: 155125902}
   - component: {fileID: 155125901}
   - component: {fileID: 155125900}
+  - component: {fileID: 155125903}
   m_Layer: 5
   m_Name: QuitButton
   m_TagString: Untagged
@@ -498,6 +512,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 155125898}
   m_CullTransparentMesh: 1
+--- !u!114 &155125903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 155125898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec6e07ccf5a0afb43948c9c4dacd8748, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
 --- !u!1 &172158029
 GameObject:
   m_ObjectHideFlags: 0
@@ -2048,7 +2074,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7417102817867667833, guid: c6e1c8e27cdf6374c81177d709cd9088, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7439112611269944820, guid: c6e1c8e27cdf6374c81177d709cd9088, type: 3}
       propertyPath: m_Layer
@@ -4468,6 +4494,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 5534722922419929795, guid: 7141cedd6a2e7f440a99825c524fb9c4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5650702186636854175, guid: 7141cedd6a2e7f440a99825c524fb9c4, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -5404,17 +5434,58 @@ MonoBehaviour:
   topSlot: {fileID: 0}
   pantsSlot: {fileID: 0}
   hairSlot: {fileID: 0}
-  maleClothingSet: {fileID: 0}
-  femaleClothingSet: {fileID: 0}
   genderDropdown: {fileID: 1985167084}
-  accessoryPreview: {fileID: 0}
-  topsPreview: {fileID: 0}
-  pantsPreview: {fileID: 0}
-  hairPreview: {fileID: 0}
-  accessoryCategory: {fileID: 0}
-  topsCategory: {fileID: 0}
-  pantsCategory: {fileID: 0}
-  hairCategory: {fileID: 0}
+  maleClothingPanel: {fileID: 0}
+  femaleClothingPanel: {fileID: 0}
+  maleItems:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  femaleItems:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  maleRTs:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  femaleRTs:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  maleCards:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  femaleCards:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  maleLables:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  femaleLabels:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  previewRenderer: {fileID: 0}
   resetButton: {fileID: 1544957150}
   finishButton: {fileID: 92619251}
   quitButton: {fileID: 155125900}
@@ -7696,6 +7767,7 @@ GameObject:
   - component: {fileID: 1544957152}
   - component: {fileID: 1544957151}
   - component: {fileID: 1544957150}
+  - component: {fileID: 1544957153}
   m_Layer: 5
   m_Name: Rreset
   m_TagString: Untagged
@@ -7805,6 +7877,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1544957148}
   m_CullTransparentMesh: 1
+--- !u!114 &1544957153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544957148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec6e07ccf5a0afb43948c9c4dacd8748, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
 --- !u!1 &1597356392
 GameObject:
   m_ObjectHideFlags: 0

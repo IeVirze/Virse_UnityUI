@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39f300cfd3817e844b14d79f4830cf79, type: 3}
+  m_Name: HeroLegends
+  m_EditorClassIdentifier: Assembly-CSharp::HeroLegends
+  maleLegend: "A warrior forged in hardship, [NAME] was born into a world \nthat
+    demanded strength. Rising from obscurity, this champion \nof the forgotten carries
+    the weight of a broken age \u2014 and the \nfire to rebuild it. Few have stood
+    where [NAME] now stands. \nFewer still have survived it."
+  femaleLegend: "Born of resilience and quiet fury, [NAME] walks a path \nthat others
+    dare not follow. In times of darkness she became \nthe light that others feared
+    to be. Her story is not one of \nchance \u2014 it is one of will, carved into
+    the bones of history."
