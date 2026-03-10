@@ -9,88 +9,68 @@ public class CharacterCreationManager : MonoBehaviour
     public GameObject maleCharacter;
     public GameObject femaleCharacter;
 
-    [Header("Clothing Slots on Character (SkinnedMeshRenderers)")]
-    public SkinnedMeshRenderer accessorySlot;
-    public SkinnedMeshRenderer topSlot;
-    public SkinnedMeshRenderer pantsSlot;
-    public SkinnedMeshRenderer hairSlot;
-
-    [Header("Gender Dropdown")]
+    [Header("Gender")]
     public TMP_Dropdown genderDropdown;
 
-    [Header("Clothing Panels")]
-    public GameObject maleClothingPanel;
-    public GameObject femaleClothingPanel;
+    [Header("Clothing Arrays - Male")]
+    public GameObject[] maleAccessories;
+    public GameObject[] maleTops;
+    public GameObject[] malePants;
+    public GameObject[] maleHair;
 
-    [Header("Male Clothing Items (5)")]
-    public ClothingItem[] maleItems = new ClothingItem[5];
+    [Header("Clothing Arrays - Female")]
+    public GameObject[] femaleAccessories;
+    public GameObject[] femaleTops;
+    public GameObject[] femaleSkirts;
+    public GameObject[] femaleHair;
 
-    [Header("Female Clothing Items (5)")]
-    public ClothingItem[] femaleItems = new ClothingItem[5];
+    [Header("Arrow Buttons")]
+    public Button accessoriesLeft, accessoriesRight;
+    public Button topsLeft, topsRight;
+    public Button pantsLeft, pantsRight;
+    public Button hairLeft, hairRight;
 
-    [Header("Render Textures - Male (5)")]
-    public RenderTexture[] maleRTs = new RenderTexture[5];
-
-    [Header("Render Textures - Female (5)")]
-    public RenderTexture[] femaleRTs = new RenderTexture[5];
-
-    [Header("Clothing Cards - Male RawImages (5)")]
-    public RawImage[] maleCards = new RawImage[5];
-
-    [Header("Clothing Cards - Female RawImages (5)")]
-    public RawImage[] femaleCards = new RawImage[5];
-
-    [Header("Card Labels - Male (5)")]
-    public TMP_Text[] maleLables = new TMP_Text[5];
-
-    [Header("Card Labels - Female (5)")]
-    public TMP_Text[] femaleLabels = new TMP_Text[5];
-
-    [Header("Preview Stage")]
-    public ClothingPreviewRenderer previewRenderer;
+    [Header("Item Display Images")]
+    public Image accessoryDisplay;
+    public Image topsDisplay;
+    public Image pantsDisplay;
+    public Image hairDisplay;
 
     [Header("Buttons")]
     public Button resetButton;
     public Button finishButton;
     public Button quitButton;
 
+    private int accIndex = 0, topIndex = 0, pantIndex = 0, hairIndex = 0;
     private bool isMale = true;
+
+    private GameObject currentAcc, currentTop, currentPant, currentHair;
 
     void Start()
     {
+        // gender dropdown
         genderDropdown.onValueChanged.AddListener(OnGenderChanged);
+
+        // arrow buttons
+        accessoriesLeft.onClick.AddListener(() => CycleItem(ref accIndex, GetAccessories(), -1, ref currentAcc));
+        accessoriesRight.onClick.AddListener(() => CycleItem(ref accIndex, GetAccessories(), 1, ref currentAcc));
+        topsLeft.onClick.AddListener(() => CycleItem(ref topIndex, GetTops(), -1, ref currentTop));
+        topsRight.onClick.AddListener(() => CycleItem(ref topIndex, GetTops(), 1, ref currentTop));
+        pantsLeft.onClick.AddListener(() => CycleItem(ref pantIndex, GetPants(), -1, ref currentPant));
+        pantsRight.onClick.AddListener(() => CycleItem(ref pantIndex, GetPants(), 1, ref currentPant));
+        hairLeft.onClick.AddListener(() => CycleItem(ref hairIndex, GetHair(), -1, ref currentHair));
+        hairRight.onClick.AddListener(() => CycleItem(ref hairIndex, GetHair(), 1, ref currentHair));
+
         resetButton.onClick.AddListener(ResetCharacter);
         finishButton.onClick.AddListener(OnFinish);
         quitButton.onClick.AddListener(OnQuit);
 
         SetGender(true);
-        RenderAllPreviews();
-    }
-
-    void RenderAllPreviews()
-    {
-        if (previewRenderer == null) return;
-
-        for (int i = 0; i < 5; i++)
-        {
-            if (i < maleItems.Length && maleItems[i] != null && i < maleRTs.Length)
-            {
-                previewRenderer.RenderItemToTexture(maleItems[i], maleRTs[i]);
-                if (maleLables != null && i < maleLables.Length && maleLables[i] != null)
-                    maleLables[i].text = maleItems[i].itemName;
-            }
-
-            if (i < femaleItems.Length && femaleItems[i] != null && i < femaleRTs.Length)
-            {
-                previewRenderer.RenderItemToTexture(femaleItems[i], femaleRTs[i]);
-                if (femaleLabels != null && i < femaleLabels.Length && femaleLabels[i] != null)
-                    femaleLabels[i].text = femaleItems[i].itemName;
-            }
-        }
     }
 
     void OnGenderChanged(int value)
     {
+        // 0 = female, 1 = male
         SetGender(value == 1);
     }
 
@@ -99,67 +79,67 @@ public class CharacterCreationManager : MonoBehaviour
         isMale = male;
         maleCharacter.SetActive(male);
         femaleCharacter.SetActive(!male);
-        maleClothingPanel.SetActive(male);
-        femaleClothingPanel.SetActive(!male);
-        UpdateSlotReferences();
         ResetCharacter();
     }
 
-    void UpdateSlotReferences()
+    void ResetCharacter()
     {
-        GameObject active = isMale ? maleCharacter : femaleCharacter;
-        accessorySlot = FindSMR(active, "Accessory");
-        topSlot       = FindSMR(active, "Top");
-        pantsSlot     = FindSMR(active, "Pants");
-        hairSlot      = FindSMR(active, "Hair");
+        // deactivate all clothing
+        DeactivateAll(maleAccessories); DeactivateAll(femaleAccessories);
+        DeactivateAll(maleTops);        DeactivateAll(femaleTops);
+        DeactivateAll(malePants);       DeactivateAll(femaleSkirts);
+        DeactivateAll(maleHair);        DeactivateAll(femaleHair);
+
+        currentAcc = null; currentTop = null;
+        currentPant = null; currentHair = null;
+        accIndex = 0; topIndex = 0;
+        pantIndex = 0; hairIndex = 0;
     }
 
-    SkinnedMeshRenderer FindSMR(GameObject root, string slotName)
+    void DeactivateAll(GameObject[] items)
     {
-        foreach (var smr in root.GetComponentsInChildren<SkinnedMeshRenderer>())
-            if (smr.gameObject.name.Contains(slotName))
-                return smr;
-        Debug.LogWarning($"SMR slot '{slotName}' not found on {root.name}");
-        return null;
+        foreach (var item in items)
+            if (item != null) item.SetActive(false);
     }
 
-    public void ApplyItemByCategory(ClothingItem item, string category)
+    void CycleItem(ref int index, GameObject[] items, int direction, ref GameObject current)
     {
-        switch (category)
+        if (items == null || items.Length == 0) return;
+
+        if (current != null) current.SetActive(false);
+
+        //  0 = no item equipped
+        index += direction;
+        if (index < 0) index = items.Length; // 0 = none, 1-N = items
+        if (index > items.Length) index = 0;
+
+        if (index == 0)
         {
-            case "Accessory": ApplyToSlot(item, accessorySlot); break;
-            case "Top":       ApplyToSlot(item, topSlot);       break;
-            case "Pants":     ApplyToSlot(item, pantsSlot);     break;
-            case "Hair":      ApplyToSlot(item, hairSlot);      break;
-            default:
-                Debug.LogWarning($"Unknown category: {category}");
-                break;
+            current = null; // naked slot
+        }
+        else
+        {
+            current = items[index - 1];
+            if (current != null) current.SetActive(true);
         }
     }
 
-    void ApplyToSlot(ClothingItem item, SkinnedMeshRenderer slot)
-    {
-        if (slot == null)
-        {
-            Debug.LogWarning("Slot is null — check SkinnedMeshRenderer names on prefab");
-            return;
-        }
-        slot.sharedMesh = item != null ? item.mesh : null;
-        slot.sharedMaterials = item != null ? item.materials : new Material[0];
-    }
-
-    public void ResetCharacter()
-    {
-        ApplyToSlot(null, accessorySlot);
-        ApplyToSlot(null, topSlot);
-        ApplyToSlot(null, pantsSlot);
-        ApplyToSlot(null, hairSlot);
-    }
+    // return correct gender array
+    GameObject[] GetAccessories() => isMale ? maleAccessories : femaleAccessories;
+    GameObject[] GetTops()        => isMale ? maleTops : femaleTops;
+    GameObject[] GetPants()       => isMale ? malePants : femaleSkirts;
+    GameObject[] GetHair()        => isMale ? maleHair : femaleHair;
 
     void OnFinish()
     {
+        // save selections for review screen
         PlayerPrefs.SetString("Gender", isMale ? "Male" : "Female");
+        PlayerPrefs.SetInt("AccIndex", accIndex);
+        PlayerPrefs.SetInt("TopIndex", topIndex);
+        PlayerPrefs.SetInt("PantIndex", pantIndex);
+        PlayerPrefs.SetInt("HairIndex", hairIndex);
         PlayerPrefs.Save();
+
         SceneManager.LoadScene("ReviewScreen");
     }
 
